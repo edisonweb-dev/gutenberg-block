@@ -47,5 +47,23 @@ function ga_registrar_bloques(){
     filemtime( plugin_dir_path(__FILE__) .'build/style.css' ) //version
   );
 
+  //Arreglo de bloques
+  $blocks = array(
+    'ga/testimonial',
+    'ga/hero',
+    'ga/imagentexto'
+  );
+
+  foreach($blocks as $block){
+    register_block_type(
+      $block,
+      array(
+        'editor_script' => 'ga-editor-script', // informacion del bloque
+        'editor_style' => 'ga-editor-style', // estilos css al editor gutenberg
+        'style' => 'ga-front-end-style'
+      )
+    );
+  }
+
 }
 add_action('init', 'ga_registrar_bloques');
