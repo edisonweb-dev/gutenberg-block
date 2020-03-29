@@ -1,6 +1,12 @@
 const { registerBlockType } = wp.blocks;
-const { RichText, MediaUpload } = wp.editor;
-const { IconButton } = wp.components;
+const { 
+  RichText, 
+  MediaUpload,
+  InspectorControls,
+  ColorPalette
+ } = wp.editor;
+
+const { IconButton, PanelBody } = wp.components;
 
 //importamos icono personalizado
 import { ReactComponent as Logo } from '../ga-logo.svg';
@@ -39,6 +45,9 @@ registerBlockType('ga/testimonial', {
       attribute: 'src',
       selector: '.testimonial-info img',
       default: Logo
+    },
+    colorTestimonial: {
+      type: 'string'
     }
   },
   edit: props =>{
@@ -47,7 +56,8 @@ registerBlockType('ga/testimonial', {
     const { attributes: { 
       textoTestimonial, 
       nombreTestimonial,
-      imagenTestimonial 
+      imagenTestimonial,
+      colorTestimonial 
     }, 
     setAttributes } = props
 
@@ -63,11 +73,30 @@ registerBlockType('ga/testimonial', {
       setAttributes( { imagenTestimonial:  imagen.sizes.medium.url } )
     }
 
+    const onChangeColorTestimonial = colorNuevo =>{
+      setAttributes( { colorTestimonial:  colorNuevo } )
+    }
+
       return (
+        <>
+        <InspectorControls>
+          <PanelBody title={'Opciones de Color'}>
+            <div className="components-base-control">
+              <div className="components-base-control__field">
+                <label className="components-base-control__label">
+                  Color de texto y linea
+                </label>
+                <ColorPalette 
+                  onChange={onChangeColorTestimonial}
+                />
+              </div>
+            </div>
+          </PanelBody>
+        </InspectorControls>
         <div className="seccion contenedor">
             <h1>Testimonial</h1>
 
-            <div className="testimonial-block">
+            <div className="testimonial-block" style={ { borderColor: colorTestimonial } }>
                 <blockquote>
                     <RichText 
                       placeholder="Agrega un texto del testimonial"
@@ -97,11 +126,13 @@ registerBlockType('ga/testimonial', {
                       placeholder="Agrega el nombre del testimonial"
                       onChange={onChangeNombreTestimonial}
                       value={nombreTestimonial}
+                      style={{ color: colorTestimonial }}
                     />
                     </p>
                 </div>
             </div>
           </div>
+        </>
       )
   },
   save: props =>{
@@ -109,7 +140,8 @@ registerBlockType('ga/testimonial', {
     const { attributes: { 
       textoTestimonial,
       nombreTestimonial,
-      imagenTestimonial
+      imagenTestimonial,
+      colorTestimonial
      } 
     } = props
 
@@ -117,15 +149,18 @@ registerBlockType('ga/testimonial', {
       <div className="seccion contenedor">
             <h1>Testimonial</h1>
 
-            <div className="testimonial-block">
+            <div className="testimonial-block" style={ { borderColor: colorTestimonial } }>
                 <blockquote>
                     <RichText.Content value={textoTestimonial} />
                 </blockquote>
 
                 <div className="testimonial-info">
                     <img src={imagenTestimonial} />
-                    <p>
-                    <RichText.Content value={nombreTestimonial} />
+                    <p style={{ color: colorTestimonial }} >
+                    <RichText.Content 
+                      value={nombreTestimonial}
+                      
+                    />
                     </p>
                 </div>
             </div>
