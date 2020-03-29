@@ -67,3 +67,20 @@ function ga_registrar_bloques(){
 
 }
 add_action('init', 'ga_registrar_bloques');
+
+
+function ga_nueva_categoria($categories, $post){
+  return array_merge(
+    $categories,
+    array(
+      array(
+        'slug' => 'gourmet-artist',
+        'title' => 'Gourmet Artist (GA)',
+        'icon' => 'awards'
+      )
+    )
+  );
+}
+add_filter('block_categories', 'ga_nueva_categoria', 10, 2);
+
+
