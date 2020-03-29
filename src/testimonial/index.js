@@ -86,7 +86,7 @@ registerBlockType('ga/testimonial', {
                         <IconButton
                           onClick={open}
                           icon="format-image"
-                          showToolTip="true"
+                          showTooltip="true"
                           label="Seleccionar Imagen"
                         />
                           

@@ -127,6 +127,157 @@ function SvgGaLogo(props) {
 
 /***/ }),
 
+/***/ "./src/hero/index.js":
+/*!***************************!*\
+  !*** ./src/hero/index.js ***!
+  \***************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ga_logo_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ga-logo.svg */ "./src/ga-logo.svg");
+
+var registerBlockType = wp.blocks.registerBlockType;
+var _wp$editor = wp.editor,
+    RichText = _wp$editor.RichText,
+    MediaUpload = _wp$editor.MediaUpload,
+    BlockControls = _wp$editor.BlockControls,
+    AlignmentToolbar = _wp$editor.AlignmentToolbar;
+var IconButton = wp.components.IconButton; //importamos icono personalizado
+
+
+/**  
+        ---7 Pasos para crear un Bloque en Gutenberg ---
+    1.- Importar el componente(s) que utilizarás
+    2.- Coloca el componente donde deseas utilizarlo.
+    3.- Crea una función que lea los contenidos
+    4.- Registra un atributo
+    5.- Extraer el contenido desde props
+    6.- Guarda el contenido con setAttributes
+    7.- Lee los contenidos guardados en save()
+*/
+
+registerBlockType('ga/hero', {
+  title: 'Ga Hero',
+  icon: {
+    src: _ga_logo_svg__WEBPACK_IMPORTED_MODULE_1__["ReactComponent"]
+  },
+  category: 'gourmet-artist',
+  attribute: {
+    tituloHero: {
+      type: 'string',
+      source: 'html',
+      selector: '.hero-block h1'
+    },
+    textoHero: {
+      type: 'string',
+      source: 'html',
+      selector: '.hero-block p'
+    },
+    imagenHero: {
+      type: 'string',
+      selector: '.hero-block'
+    },
+    alinearContenido: {
+      type: 'string',
+      default: 'center'
+    }
+  },
+  edit: function edit(props) {
+    //extraemos los valores de los props
+    var _props$attributes = props.attributes,
+        tituloHero = _props$attributes.tituloHero,
+        textoHero = _props$attributes.textoHero,
+        imagenHero = _props$attributes.imagenHero,
+        alinearContenido = _props$attributes.alinearContenido,
+        setAttributes = props.setAttributes;
+
+    var onChangeTitulo = function onChangeTitulo(nuevoTitulo) {
+      setAttributes({
+        tituloHero: nuevoTitulo
+      });
+    };
+
+    var onChangeTexto = function onChangeTexto(nuevoTexto) {
+      setAttributes({
+        textoHero: nuevoTexto
+      });
+    };
+
+    var onSeleccionarImagen = function onSeleccionarImagen(nuevoImagen) {
+      setAttributes({
+        imagenHero: nuevoImagen.sizes.full.url
+      });
+    };
+
+    var onChangeAlinearContenido = function onChangeAlinearContenido(nuevaAlineacion) {
+      setAttributes({
+        alinearContenido: nuevaAlineacion
+      });
+    };
+
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      class: "hero-block",
+      style: {
+        backgroundImage: "url( ".concat(imagenHero, " )")
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(BlockControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(AlignmentToolbar, {
+      onChange: onChangeAlinearContenido
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(MediaUpload, {
+      onSelect: onSeleccionarImagen,
+      type: "image",
+      value: imagenHero,
+      render: function render(_ref) {
+        var open = _ref.open;
+        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(IconButton, {
+          onClick: open,
+          icon: "format-image",
+          showTooltip: "true",
+          label: "Cambiar Imagen"
+        });
+      }
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      style: {
+        textAlign: alinearContenido
+      },
+      placeholder: "Agrega un texto",
+      onChange: onChangeTitulo,
+      value: tituloHero
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      style: {
+        textAlign: alinearContenido
+      },
+      placeholder: "Agrega Descripcion texto",
+      onChange: onChangeTexto,
+      value: textoHero
+    })));
+  },
+  save: function save(props) {
+    //extraemos los valores de los props
+    var _props$attributes2 = props.attributes,
+        tituloHero = _props$attributes2.tituloHero,
+        textoHero = _props$attributes2.textoHero,
+        imagenHero = _props$attributes2.imagenHero,
+        alinearContenido = _props$attributes2.alinearContenido;
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      class: "hero-block",
+      style: {
+        backgroundImage: "url( ".concat(imagenHero, " )"),
+        textAlign: alinearContenido
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      value: tituloHero
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      value: textoHero
+    })));
+  }
+});
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -137,7 +288,9 @@ function SvgGaLogo(props) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _testimonial__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./testimonial */ "./src/testimonial/index.js");
+/* harmony import */ var _hero__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hero */ "./src/hero/index.js");
 //importar los bloques
+
 
 
 /***/ }),
@@ -245,7 +398,7 @@ registerBlockType('ga/testimonial', {
         return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(IconButton, {
           onClick: open,
           icon: "format-image",
-          showToolTip: "true",
+          showTooltip: "true",
           label: "Seleccionar Imagen"
         });
       }

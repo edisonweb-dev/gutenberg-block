@@ -50,8 +50,8 @@ function ga_registrar_bloques(){
   //Arreglo de bloques
   $blocks = array(
     'ga/testimonial',
-    'ga/hero',
-    'ga/imagentexto'
+    'ga/hero'
+    //'ga/imagentexto'
   );
 
   foreach($blocks as $block){
