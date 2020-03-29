@@ -186,6 +186,9 @@ registerBlockType('ga/hero', {
       default: 'center'
     }
   },
+  supports: {
+    align: ['wide', 'full']
+  },
   edit: function edit(props) {
     //extraemos los valores de los props
     var _props$attributes = props.attributes,
@@ -278,6 +281,208 @@ registerBlockType('ga/hero', {
 
 /***/ }),
 
+/***/ "./src/imagentexto/index.js":
+/*!**********************************!*\
+  !*** ./src/imagentexto/index.js ***!
+  \**********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ga_logo_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ga-logo.svg */ "./src/ga-logo.svg");
+
+var registerBlockType = wp.blocks.registerBlockType;
+var _wp$editor = wp.editor,
+    RichText = _wp$editor.RichText,
+    MediaUpload = _wp$editor.MediaUpload,
+    URLInputButton = _wp$editor.URLInputButton,
+    BlockControls = _wp$editor.BlockControls,
+    AlignmentToolbar = _wp$editor.AlignmentToolbar;
+var IconButton = wp.components.IconButton; //importamos icono personalizado
+
+
+/**  
+        ---7 Pasos para crear un Bloque en Gutenberg ---
+    1.- Importar el componente(s) que utilizarás
+    2.- Coloca el componente donde deseas utilizarlo.
+    3.- Crea una función que lea los contenidos
+    4.- Registra un atributo
+    5.- Extraer el contenido desde props
+    6.- Guarda el contenido con setAttributes
+    7.- Lee los contenidos guardados en save()
+*/
+
+registerBlockType('ga/imagentexto', {
+  title: 'Ga Imagen',
+  icon: {
+    src: _ga_logo_svg__WEBPACK_IMPORTED_MODULE_1__["ReactComponent"]
+  },
+  category: 'gourmet-artist',
+  attribute: {
+    appTitulo: {
+      type: 'string',
+      source: 'html',
+      selector: '.contenido h1'
+    },
+    appTexto: {
+      type: 'string',
+      source: 'html',
+      selector: '.contenido p'
+    },
+    appImagen: {
+      type: 'string',
+      source: 'attribute',
+      attribute: 'src',
+      selector: '.imagen img',
+      default: _ga_logo_svg__WEBPACK_IMPORTED_MODULE_1__["ReactComponent"]
+    },
+    urlApp: {
+      type: 'string',
+      source: 'attribute',
+      attribute: 'href'
+    },
+    alinearContenido: {
+      type: 'string',
+      default: 'center'
+    }
+  },
+  supports: {
+    align: ['wide', 'full']
+  },
+  styles: [{
+    name: 'default',
+    label: 'Azul (default)',
+    isDefault: true
+  }, {
+    name: 'verde',
+    label: 'Verde'
+  }, {
+    name: 'rosa',
+    label: 'Rosa'
+  }],
+  edit: function edit(props) {
+    //extraemos los valores de los props
+    var _props$attributes = props.attributes,
+        appTitulo = _props$attributes.appTitulo,
+        appTexto = _props$attributes.appTexto,
+        appImagen = _props$attributes.appImagen,
+        urlApp = _props$attributes.urlApp,
+        alinearContenido = _props$attributes.alinearContenido,
+        setAttributes = props.setAttributes;
+
+    var onChangeTitulo = function onChangeTitulo(nuevoTitulo) {
+      setAttributes({
+        appTitulo: nuevoTitulo
+      });
+    };
+
+    var onChangeTexto = function onChangeTexto(nuevoTexto) {
+      setAttributes({
+        appTexto: nuevoTexto
+      });
+    };
+
+    var onSeleccionarImagen = function onSeleccionarImagen(imagen) {
+      setAttributes({
+        appImagen: imagen.sizes.medium.url
+      });
+    };
+
+    var onChangeURL = function onChangeURL(nuevaUrl) {
+      setAttributes({
+        urlApp: nuevaUrl
+      });
+    };
+
+    var onChangeAlinearContenido = function onChangeAlinearContenido(nuevaAlineacion) {
+      setAttributes({
+        alinearContenido: nuevaAlineacion
+      });
+    };
+
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(BlockControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(AlignmentToolbar, {
+      onChange: onChangeAlinearContenido,
+      value: alinearContenido
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "imagen-texto-block"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "contenedor"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "contenido"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      placeholder: "Agrega el titulo",
+      onChange: onChangeTitulo,
+      value: appTitulo,
+      style: {
+        textAlign: alinearContenido
+      }
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      placeholder: "Agrega la descripci\xF3n",
+      onChange: onChangeTexto,
+      value: appTexto,
+      style: {
+        textAlign: alinearContenido
+      }
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+      href: urlApp,
+      className: "boton"
+    }, "Descargar"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(URLInputButton, {
+      url: urlApp,
+      onChange: onChangeURL
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "imagen"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+      src: appImagen
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(MediaUpload, {
+      onSelect: onSeleccionarImagen,
+      type: "image",
+      value: appImagen,
+      render: function render(_ref) {
+        var open = _ref.open;
+        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(IconButton, {
+          onClick: open,
+          icon: "format-image",
+          showTooltip: "true",
+          label: "Seleccionar Imagen"
+        });
+      }
+    })))));
+  },
+  save: function save(props) {
+    //extraemos los valores de los props
+    var _props$attributes2 = props.attributes,
+        appTitulo = _props$attributes2.appTitulo,
+        appTexto = _props$attributes2.appTexto,
+        appImagen = _props$attributes2.appImagen,
+        urlApp = _props$attributes2.urlApp,
+        alinearContenido = _props$attributes2.alinearContenido;
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "imagen-texto-block"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "contenedor"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "contenido",
+      style: "text-align: ".concat(alinearContenido)
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      value: appTitulo
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      value: appTexto
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+      href: urlApp,
+      className: "boton"
+    }, "Descargar")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "imagen"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+      src: appImagen
+    }))));
+  }
+});
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -289,7 +494,9 @@ registerBlockType('ga/hero', {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _testimonial__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./testimonial */ "./src/testimonial/index.js");
 /* harmony import */ var _hero__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hero */ "./src/hero/index.js");
+/* harmony import */ var _imagentexto__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./imagentexto */ "./src/imagentexto/index.js");
 //importar los bloques
+
 
 
 
@@ -380,7 +587,7 @@ registerBlockType('ga/testimonial', {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "seccion contenedor"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Testimonial"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      class: "testimonial-block"
+      className: "testimonial-block"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("blockquote", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
       placeholder: "Agrega un texto del testimonial",
       onChange: onChangeTextoTestimonial,
@@ -416,7 +623,7 @@ registerBlockType('ga/testimonial', {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "seccion contenedor"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Testimonial"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      class: "testimonial-block"
+      className: "testimonial-block"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("blockquote", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
       value: textoTestimonial
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {

@@ -47,6 +47,9 @@ registerBlockType('ga/hero', {
       default: 'center',
     }
   },
+  supports: {
+    align: ['wide','full']
+  },
   edit: props =>{
 
      //extraemos los valores de los props

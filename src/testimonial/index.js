@@ -67,7 +67,7 @@ registerBlockType('ga/testimonial', {
         <div className="seccion contenedor">
             <h1>Testimonial</h1>
 
-            <div class="testimonial-block">
+            <div className="testimonial-block">
                 <blockquote>
                     <RichText 
                       placeholder="Agrega un texto del testimonial"
@@ -117,7 +117,7 @@ registerBlockType('ga/testimonial', {
       <div className="seccion contenedor">
             <h1>Testimonial</h1>
 
-            <div class="testimonial-block">
+            <div className="testimonial-block">
                 <blockquote>
                     <RichText.Content value={textoTestimonial} />
                 </blockquote>
