@@ -86,6 +86,84 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/dinamico/index.js":
+/*!*******************************!*\
+  !*** ./src/dinamico/index.js ***!
+  \*******************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ga_logo_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ga-logo.svg */ "./src/ga-logo.svg");
+
+var registerBlockType = wp.blocks.registerBlockType;
+var RichText = wp.editor.RichText;
+var withSelect = wp.data.withSelect; //importamos icono personalizado
+
+
+/**  
+        ---7 Pasos para crear un Bloque en Gutenberg ---
+    1.- Importar el componente(s) que utilizarás
+    2.- Coloca el componente donde deseas utilizarlo.
+    3.- Crea una función que lea los contenidos
+    4.- Registra un atributo
+    5.- Extraer el contenido desde props
+    6.- Guarda el contenido con setAttributes
+    7.- Lee los contenidos guardados en save()
+*/
+
+registerBlockType('ga/dinamico', {
+  title: 'Ga Ultimas Recetas',
+  icon: {
+    src: _ga_logo_svg__WEBPACK_IMPORTED_MODULE_1__["ReactComponent"]
+  },
+  category: 'gourmet-artist',
+  edit: withSelect(function (select) {
+    return {
+      //Consultar WP REST API para traer las ultimas recetas
+      posts: select("core").getEntityRecords("postType", "recetas", {
+        per_page: 3,
+        offset: 1
+      }) //posts: select("core").getEntityRecords('postType', 'post', { per_page: -1 })
+
+    };
+  })(function (_ref) {
+    var posts = _ref.posts;
+    console.log(posts); //Se hara una consulta a posts
+
+    if (!posts) {
+      return 'Cargando..';
+    }
+
+    if (posts && posts.length == 0) {
+      return 'No hay resultados';
+    }
+
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", null, "\xDAltimas Recetas"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("ul", {
+      className: "ultimas-recetas contenedor"
+    }, posts.map(function (post) {
+      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("li", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+        src: post.imagen_destacada
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+        className: "contenido"
+      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, post.title.rendered), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+        value: post.content.rendered.substring(0, 180) + '...'
+      })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+        href: post.link,
+        className: "boton"
+      }, "Leer M\xE1s")));
+    })));
+  }),
+  save: function save() {
+    return null;
+  }
+});
+
+/***/ }),
+
 /***/ "./src/ga-logo.svg":
 /*!*************************!*\
   !*** ./src/ga-logo.svg ***!
@@ -495,7 +573,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _testimonial__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./testimonial */ "./src/testimonial/index.js");
 /* harmony import */ var _hero__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hero */ "./src/hero/index.js");
 /* harmony import */ var _imagentexto__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./imagentexto */ "./src/imagentexto/index.js");
+/* harmony import */ var _dinamico__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dinamico */ "./src/dinamico/index.js");
 //importar los bloques
+
 
 
 
@@ -518,8 +598,12 @@ __webpack_require__.r(__webpack_exports__);
 var registerBlockType = wp.blocks.registerBlockType;
 var _wp$editor = wp.editor,
     RichText = _wp$editor.RichText,
-    MediaUpload = _wp$editor.MediaUpload;
-var IconButton = wp.components.IconButton; //importamos icono personalizado
+    MediaUpload = _wp$editor.MediaUpload,
+    InspectorControls = _wp$editor.InspectorControls,
+    ColorPalette = _wp$editor.ColorPalette;
+var _wp$components = wp.components,
+    IconButton = _wp$components.IconButton,
+    PanelBody = _wp$components.PanelBody; //importamos icono personalizado
 
 
 /**  
@@ -556,6 +640,9 @@ registerBlockType('ga/testimonial', {
       attribute: 'src',
       selector: '.testimonial-info img',
       default: _ga_logo_svg__WEBPACK_IMPORTED_MODULE_1__["ReactComponent"]
+    },
+    colorTestimonial: {
+      type: 'string'
     }
   },
   edit: function edit(props) {
@@ -564,6 +651,7 @@ registerBlockType('ga/testimonial', {
         textoTestimonial = _props$attributes.textoTestimonial,
         nombreTestimonial = _props$attributes.nombreTestimonial,
         imagenTestimonial = _props$attributes.imagenTestimonial,
+        colorTestimonial = _props$attributes.colorTestimonial,
         setAttributes = props.setAttributes;
 
     var onChangeTextoTestimonial = function onChangeTextoTestimonial(nuevoTexto) {
@@ -584,10 +672,29 @@ registerBlockType('ga/testimonial', {
       });
     };
 
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    var onChangeColorTestimonial = function onChangeColorTestimonial(colorNuevo) {
+      setAttributes({
+        colorTestimonial: colorNuevo
+      });
+    };
+
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PanelBody, {
+      title: 'Opciones de Color'
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "components-base-control"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "components-base-control__field"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
+      className: "components-base-control__label"
+    }, "Color de texto y linea"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(ColorPalette, {
+      onChange: onChangeColorTestimonial
+    }))))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "seccion contenedor"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Testimonial"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "testimonial-block"
+      className: "testimonial-block",
+      style: {
+        borderColor: colorTestimonial
+      }
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("blockquote", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
       placeholder: "Agrega un texto del testimonial",
       onChange: onChangeTextoTestimonial,
@@ -612,25 +719,36 @@ registerBlockType('ga/testimonial', {
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
       placeholder: "Agrega el nombre del testimonial",
       onChange: onChangeNombreTestimonial,
-      value: nombreTestimonial
-    })))));
+      value: nombreTestimonial,
+      style: {
+        color: colorTestimonial
+      }
+    }))))));
   },
   save: function save(props) {
     var _props$attributes2 = props.attributes,
         textoTestimonial = _props$attributes2.textoTestimonial,
         nombreTestimonial = _props$attributes2.nombreTestimonial,
-        imagenTestimonial = _props$attributes2.imagenTestimonial;
+        imagenTestimonial = _props$attributes2.imagenTestimonial,
+        colorTestimonial = _props$attributes2.colorTestimonial;
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "seccion contenedor"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, "Testimonial"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "testimonial-block"
+      className: "testimonial-block",
+      style: {
+        borderColor: colorTestimonial
+      }
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("blockquote", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
       value: textoTestimonial
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "testimonial-info"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
       src: imagenTestimonial
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
+      style: {
+        color: colorTestimonial
+      }
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
       value: nombreTestimonial
     })))));
   }
